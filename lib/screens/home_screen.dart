@@ -17,7 +17,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   _getUsersFromApi() {
     http.Client()
-        .get('http://www.mocky.io/v2/5dce082b2e00003d8672a0e8') // mudar essa linha pela url da api
+        .get(
+            'http://www.mocky.io/v2/5dcf06e03000005b00931d8d') // mudar essa linha pela url da api
         .then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ABC"),
+        title: Text("Usuários"),
         bottom: TabBar(
           unselectedLabelColor: Colors.white,
           labelColor: Colors.amber,
@@ -63,10 +64,53 @@ class _HomeScreenState extends State<HomeScreen>
         children: <Widget>[
           Container(
             child: ListView.builder(
-              
               itemCount: users.length,
               itemBuilder: (context, index) {
-                return ListTile(title: Text(users[index].name));
+                return Center(
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(Icons.album),
+                          title: Text(users[index].name),
+                          subtitle: Text(users[index].email),
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                users[index].aboutMe,
+                                textAlign: TextAlign.left,
+                                // caso queira que seja exibido os ... basta descomentar as linhas abaixo, dessa forma o card mantem a sua proporção
+                                // overflow: TextOverflow.ellipsis,
+                                // maxLines: 1,
+                                // softWrap: false,
+                              ),
+                            )
+                          ],
+                        ),
+                        ButtonTheme.bar(
+                          child: ButtonBar(
+                            children: <Widget>[
+                              FlatButton(
+                                child: const Text('Editar'),
+                                onPressed: () {},
+                              ),
+                              FlatButton(
+                                child: const Text('Excluir',
+                                    style: TextStyle(color: Colors.redAccent)),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+                // return ListTile(title: Text(users[index].name));
               },
             ),
           ),
